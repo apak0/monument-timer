@@ -107,7 +107,7 @@ const App = () => {
       <Flex
         direction="row"
         align="center"
-        className=" my-20 "
+        className=" my-20 h-56  "
         border={"4px solid aqua"}
         >
         <Heading className="font-bold text-2xl   mx-10 border-b-4 border-blue-500 text-blue-700">
