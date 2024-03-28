@@ -7,11 +7,12 @@ const Counter = ({ title }) => {
   const [remainingTime, setRemainingTime] = useState(90 * 60); // 90 dakika
   const [backgroundColor, setBackgroundColor] = useState("transparent");
   const [isRunning, setIsRunning] = useState(false);
+  const [isPaused, setIsPaused] = useState(false);
 
   let timer;
 
   useEffect(() => {
-    if (isRunning) {
+    if (isRunning && !isPaused) {
       timer = setInterval(() => {
         setElapsedTime((prevElapsedTime) => prevElapsedTime + 1);
         setRemainingTime((prevRemainingTime) => prevRemainingTime - 1);
@@ -19,7 +20,7 @@ const Counter = ({ title }) => {
     }
 
     return () => clearInterval(timer);
-  }, [isRunning]);
+  }, [isRunning, isPaused]);
 
   useEffect(() => {
     if (elapsedTime >= 3600) {
@@ -31,13 +32,18 @@ const Counter = ({ title }) => {
   }, [elapsedTime]);
 
   const handleStartStop = () => {
-    setIsRunning((prevState) => !prevState);
+    if (!isRunning) {
+      setIsRunning(true);
+    } else {
+      setIsPaused((prevPaused) => !prevPaused);
+    }
   };
 
   const handleReset = () => {
     setElapsedTime(0);
     setRemainingTime(90 * 60);
     setIsRunning(false);
+    setIsPaused(false);
     setBackgroundColor("transparent");
   };
 
@@ -80,13 +86,13 @@ const Counter = ({ title }) => {
       <Flex justify="space-evenly" mt="10">
         <Button
           onClick={handleStartStop}
-          colorScheme={isRunning ? "red" : "green"}
+          colorScheme={isPaused ? "green" : "red"}
           w="80px"
           mr="20"
           border={"2px solid blue"}
           className="flex justify-center items-center font-bold overflow-hidden bg-orange-400"
         >
-          {isRunning ? "Duraklat" : "Başlat"}
+          {isPaused ? "Devam Et" : (isRunning ? "Duraklat" : "Başlat")}
         </Button>
         <Button
           onClick={handleReset}
