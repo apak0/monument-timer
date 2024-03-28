@@ -67,13 +67,16 @@ const Counter = ({ title }) => {
       </Heading>
       {isRunning && (
         <>
-        <Text fontSize="2xl" className="text-red-200 text-lg font-bold font-mono">
-        Geçen Süre: {formatTime(elapsedTime)} Kalan Süre:{" "}
-        {formatTime(remainingTime)}
-      </Text>
-      </>
+          <Text
+            fontSize="2xl"
+            className="text-red-200 text-lg font-bold font-mono"
+          >
+            Geçen Süre: {formatTime(elapsedTime)} Kalan Süre:{" "}
+            {formatTime(remainingTime)}
+          </Text>
+        </>
       )}
-      
+
       <Flex justify="space-evenly" mt="10">
         <Button
           onClick={handleStartStop}
@@ -99,28 +102,43 @@ const Counter = ({ title }) => {
 };
 
 const App = () => {
+  const [isMobileView, setIsMobileView] = useState(true);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobileView(window.innerWidth < 768);
+    };
+
+    handleResize();
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   return (
     <div>
-
       <Navbar />
-    <Flex justify="center" align="center" h="100vh" className="bg-gray-400  ">
-      <Flex
-        direction="row"
-        align="center"
-        className=" my-20 h-56  "
-        border={"4px solid aqua"}
+      <Flex justify="center" align="center" h="100vh" className="bg-gray-400  ">
+        <Flex
+          direction={isMobileView ? "column" : "row"}
+          align="center"
+          className={isMobileView ? " my-20" : "my-20 h-56"}
+          border={"4px solid aqua"}
         >
-        <Heading className="font-bold text-2xl   mx-10 border-b-4 border-blue-500 text-blue-700">
-          Death Valley Monument
-        </Heading>
-        <Counter title="Dv-1" />
-        <Counter title="Dv-2" />
-        <Counter title="Dv-3" />
-        <Counter title="Dv-4" />
-        <Counter title="Dv-5" />
+          <Heading className="font-bold text-2xl   mx-10 border-b-4 border-blue-500 text-blue-700">
+            Death Valley Monument
+          </Heading>
+          <Counter title="Dv-1" />
+          <Counter title="Dv-2" />
+          <Counter title="Dv-3" />
+          <Counter title="Dv-4" />
+          <Counter title="Dv-5" />
+        </Flex>
       </Flex>
-    </Flex>
-        </div>
+    </div>
   );
 };
 
