@@ -26,7 +26,7 @@ const Counter = ({ title }) => {
     if (elapsedTime >= 3600) {
       setBackgroundColor("red");
       clearInterval(timer);
-    } else if (elapsedTime >= 1800) {
+    } else if (elapsedTime >= 3300) {
       setBackgroundColor("yellow");
     }
   }, [elapsedTime]);
